@@ -1,8 +1,21 @@
+import "./index.css"
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import loginService from './services/login'
 import blogService from './services/blogs'
 
+const Notification = ({ message, success }) => {
+  
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className={success ? 'success' : 'error'}>
+      {message}
+    </div>
+  )
+}
 
 const CreateBlog = ({handleCreate, newURL, newTitle, newAuthor}) => {
   return (<form onSubmit={handleCreate}>
@@ -44,6 +57,8 @@ const App = () => {
   const [url, newURL] = useState(null)
   const [title, newTitle] = useState(null)
   const [author, newAuthor] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {    
     const loggedUserJSON = window.localStorage.getItem('loggedUser')    
@@ -68,8 +83,13 @@ const App = () => {
       const user = await loginService.login({        
         username, password,      
       })      
+
       window.localStorage.setItem('loggedUser', JSON.stringify(user)) 
-      blogService.setToken(user.token)      
+      blogService.setToken(user.token)     
+      setSuccessMessage('Logged in with user ' + user.name ) 
+      setTimeout(() => {        
+        setSuccessMessage(null)      
+      }, 5000)  
       setUser(user)      
       setUsername('')      
       setPassword('')    
@@ -96,13 +116,25 @@ const App = () => {
       newURL('')      
       newTitle('')      
       newAuthor('')    
+      setSuccessMessage('New blog created') 
+      setTimeout(() => {        
+        setSuccessMessage(null)      
+      }, 5000)   
     } catch (exception) {      
+      setErrorMessage('Error trying to creat blog: ' + exception.message) 
+      setTimeout(() => {        
+        setErrorMessage(null)      
+      }, 5000)   
       console.log(exception)
     }
   }
   
   if (user === null) {
+    
     return (
+      <>
+      <Notification success={true} message={successMessage} />
+      <Notification success={false} message={errorMessage} />
       <form onSubmit={handleLogin}>
       <div>
         username
@@ -124,11 +156,14 @@ const App = () => {
       </div>
       <button type="submit">login</button>
     </form>
+    </>
     )
   }
 
   return (
     <div>
+      <Notification success={true} message={successMessage} />
+      <Notification success={false} message={errorMessage} />
         <p>{user.name} logged-in</p> 
         <button onClick={handleLogout}>Logout</button>
         <p></p>
