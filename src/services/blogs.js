@@ -5,6 +5,7 @@ let token = null
 const setToken = newToken => {  token = `Bearer ${newToken}`}
 
 const getAll = async () => {
+  console.log("token", token)
   const config = {    
     headers: { Authorization: token },  
   }
