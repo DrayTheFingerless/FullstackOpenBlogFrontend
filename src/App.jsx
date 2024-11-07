@@ -1,8 +1,10 @@
 import "./index.css"
 import { useState, useEffect, useRef } from 'react'
+import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
+
 import loginService from './services/login'
 import blogService from './services/blogs'
 
@@ -26,9 +28,7 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)  
 
-  const [url, newURL] = useState(null)
-  const [title, newTitle] = useState(null)
-  const [author, newAuthor] = useState(null)
+ 
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
@@ -81,16 +81,11 @@ const App = () => {
     blogService.setToken(null)  
   }
 
-  const handleCreate = async (event) => {
-    event.preventDefault() 
-
+  const handleCreate = async ({url, title, author}) => {
     try {      
       const createdBlog = await blogService.create({url,title,author})   
       blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(createdBlog))
-      newURL('')      
-      newTitle('')      
-      newAuthor('')    
       setSuccessMessage('New blog created') 
       setTimeout(() => {        
         setSuccessMessage(null)      
@@ -105,32 +100,15 @@ const App = () => {
   }
   
   if (user === null) {
-    
     return (
       <>
       <Notification success={true} message={successMessage} />
       <Notification success={false} message={errorMessage} />
-      <form onSubmit={handleLogin}>
-      <div>
-        username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+      <LoginForm handleLogin={handleLogin} 
+      username={username}
+      password={password}
+      setUsername={setUsername} 
+      setPassword={setPassword}/>
     </>
     )
   }
@@ -142,10 +120,7 @@ const App = () => {
         <p>{user.name} logged-in</p> 
         <button onClick={handleLogout}>Logout</button>
         <Togglable buttonLabel='Create Blog' ref={blogFormRef}>
-          <CreateBlog handleCreate={handleCreate} 
-          newURL={newURL}
-          newTitle={newTitle}
-          newAuthor={newAuthor}/>
+          <CreateBlog handleCreate={handleCreate}/>
         </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
