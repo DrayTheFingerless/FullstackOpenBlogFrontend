@@ -101,11 +101,10 @@ const App = () => {
   
   const handleLike = async(newObject) => {
     try {
+      await blogService.put(newObject.id, newObject)
       setBlogs(blogs.map(blog =>
         blog.id === newObject.id ? newObject : blog
       ))
-      await blogService.put(newObject.id, newObject)
-      
     } catch (exception) {   
       setErrorMessage('Error trying to like blog: ' + exception.message) 
       setTimeout(() => {        
@@ -114,6 +113,20 @@ const App = () => {
       console.log(exception)
     }
   }
+
+  const handleRemove = async(newObject) => {
+    try {
+      await blogService.remove(newObject.id)
+      setBlogs(blogs.filter(a => a.id !== newObject.id))
+    } catch (exception) {   
+      setErrorMessage('Error trying to like blog: ' + exception.message) 
+      setTimeout(() => {        
+        setErrorMessage(null)      
+      }, 5000)   
+      console.log(exception)
+    }
+  }
+
 
   if (user === null) {
     return (
@@ -139,7 +152,7 @@ const App = () => {
           <CreateBlog handleCreate={handleCreate}/>
         </Togglable>
         {blogs.map(blog =>
-          <Blog handleLike={handleLike} key={blog.id} blog={blog} />
+          <Blog handleLike={handleLike} handleRemove={handleRemove} key={blog.id} blog={blog} />
         )}
     </div>
   )
