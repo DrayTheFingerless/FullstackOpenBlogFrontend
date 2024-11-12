@@ -1,27 +1,27 @@
 import { useState } from 'react'
 
-const CreateBlog = ({handleCreate}) => {
-    const [url, newURL] = useState(null)
-    const [title, newTitle] = useState(null)
-    const [author, newAuthor] = useState(null)
+const CreateBlog = ({ handleCreate }) => {
+  const [url, newURL] = useState(null)
+  const [title, newTitle] = useState(null)
+  const [author, newAuthor] = useState(null)
 
-    const addBlog = (event) => {
-        event.preventDefault()
-        handleCreate({
-        url: url,
-        title: title,
-        author: author
-        })
+  const addBlog = (event) => {
+    event.preventDefault()
+    handleCreate({
+      url: url,
+      title: title,
+      author: author
+    })
 
-        newURL('')
-        newTitle('')
-        newAuthor('')
-    }
+    newURL('')
+    newTitle('')
+    newAuthor('')
+  }
 
-    return (<form onSubmit={addBlog}>
+  return (<form onSubmit={addBlog}>
     <div>
       URL
-        <input
+      <input
         type="text"
         name="URL"
         onChange={({ target }) => newURL(target.value)}
@@ -29,7 +29,7 @@ const CreateBlog = ({handleCreate}) => {
     </div>
     <div>
       Title
-        <input
+      <input
         type="text"
         name="Title"
         onChange={({ target }) => newTitle(target.value)}
@@ -37,7 +37,7 @@ const CreateBlog = ({handleCreate}) => {
     </div>
     <div>
       Author
-        <input
+      <input
         type="text"
         name="Author"
         onChange={({ target }) => newAuthor(target.value)}
@@ -45,7 +45,7 @@ const CreateBlog = ({handleCreate}) => {
     </div>
     <button type="submit">Create</button>
   </form>
-    )
-  }
+  )
+}
 
-  export default CreateBlog
+export default CreateBlog
