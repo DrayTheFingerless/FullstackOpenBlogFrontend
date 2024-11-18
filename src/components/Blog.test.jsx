@@ -42,4 +42,19 @@ describe('<Blog/>', () => {
 
         expect(div).not.toHaveStyle('display: none')
   })
+
+  test('after clicking the like button, counter goes up twice', async () => {
+
+
+    const user = userEvent.setup()  
+    const button = screen.getByText('Like')  
+    await user.click(button)
+
+    expect(handleLike.mock.calls).toHaveLength(1)
+
+    await user.click(button)
+
+    expect(handleLike.mock.calls).toHaveLength(2)
+
+  })
 })
