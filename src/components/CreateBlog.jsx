@@ -18,10 +18,13 @@ const CreateBlog = ({ handleCreate }) => {
     newAuthor('')
   }
 
-  return (<form onSubmit={addBlog}>
+  return (
+  <form onSubmit={addBlog}>
     <div>
       URL
       <input
+        placeholder='url here'
+        id='url-input'
         type="text"
         name="URL"
         onChange={({ target }) => newURL(target.value)}
@@ -30,6 +33,8 @@ const CreateBlog = ({ handleCreate }) => {
     <div>
       Title
       <input
+        placeholder='title here'
+        id='title-input'
         type="text"
         name="Title"
         onChange={({ target }) => newTitle(target.value)}
@@ -38,6 +43,8 @@ const CreateBlog = ({ handleCreate }) => {
     <div>
       Author
       <input
+        placeholder='author here'
+        id='author-input'
         type="text"
         name="Author"
         onChange={({ target }) => newAuthor(target.value)}

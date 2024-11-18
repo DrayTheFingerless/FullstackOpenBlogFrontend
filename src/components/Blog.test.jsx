@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import CreateBlog from './CreateBlog'
 
 describe('<Blog/>', () => {
   let container
@@ -55,6 +56,46 @@ describe('<Blog/>', () => {
     await user.click(button)
 
     expect(handleLike.mock.calls).toHaveLength(2)
+
+  })
+})
+
+describe('<CreateBlog/>', () => {
+ 
+   let container
+
+  const handleCreate = vi.fn()
+
+/*   beforeEach(() => {
+    container = render(
+      <CreateBlog handleCreate={handleCreate}  />
+    ).container
+  }) */
+
+  test('after clicking the button, create blog is called correctly', async () => {
+        const user = userEvent.setup()
+
+        render(
+        <CreateBlog handleCreate={handleCreate}  />
+        )
+
+        const inputUrl = screen.getByPlaceholderText('url here')
+        const inputTitle = screen.getByPlaceholderText('title here')
+        const inputAuthor = screen.getByPlaceholderText('author here')
+        const button = screen.getByText('Create')
+
+        await user.type(inputUrl, 'url to show')
+        await user.type(inputTitle, 'title')
+        await user.type(inputAuthor, 'author')
+        
+        await user.click(button)
+
+        console.log(handleCreate.mock.calls)
+
+        expect(handleCreate.mock.calls).toHaveLength(1)
+        expect(handleCreate.mock.calls[0][0].url).toBe('url to show')
+        expect(handleCreate.mock.calls[0][0].title).toBe('title')
+        expect(handleCreate.mock.calls[0][0].author).toBe('author')
 
   })
 })
