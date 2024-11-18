@@ -30,4 +30,16 @@ describe('<Blog/>', () => {
     )
   })
  
+   test('after clicking the button, children are displayed', async () => {
+
+        const div = container.querySelector('.togglableContent')
+
+        expect(div).toHaveStyle('display: none')
+
+        const user = userEvent.setup()
+        const button = screen.getByText('show')
+        await user.click(button)
+
+        expect(div).not.toHaveStyle('display: none')
+  })
 })
