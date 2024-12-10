@@ -48,6 +48,8 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a, b) => a.likes - b.likes))
     )
+
+
   }, [user])
 
 
@@ -127,6 +129,9 @@ const App = () => {
     }
   }
 
+  const checkBlogBelongs = (user,blog) => {
+    return user.blogs.some(e => e.id === blog.id)
+  }
 
   if (user === null) {
     return (
@@ -153,7 +158,7 @@ const App = () => {
         <CreateBlog handleCreate={handleCreate}/>
       </Togglable>
       {blogs.map(blog =>
-        <Blog handleLike={handleLike} handleRemove={handleRemove} key={blog.id} blog={blog} />
+        <Blog handleLike={handleLike} handleRemove={handleRemove} key={blog.id} blog={blog} canRemove={checkBlogBelongs(user,blog)} />
       )}
     </div>
   )

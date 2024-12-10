@@ -24,6 +24,7 @@ const CreateBlog = ({ handleCreate }) => {
       URL
       <input
         placeholder='url here'
+        data-testid='urlField'
         id='url-input'
         type="text"
         name="URL"
@@ -34,6 +35,7 @@ const CreateBlog = ({ handleCreate }) => {
       Title
       <input
         placeholder='title here'
+        data-testid='titleField'
         id='title-input'
         type="text"
         name="Title"
@@ -44,6 +46,7 @@ const CreateBlog = ({ handleCreate }) => {
       Author
       <input
         placeholder='author here'
+        data-testid='authorField'
         id='author-input'
         type="text"
         name="Author"
