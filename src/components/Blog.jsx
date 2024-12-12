@@ -26,7 +26,7 @@ const Blog = ({ handleLike, handleRemove, blog, canRemove }) => {
       <p data-testid="numberLikes">{blog.likes} likes <button onClick={addLike}>Like</button></p>
       </div>
     </Togglable>
-    <p style={{ display: canRemove ? 'none' : ''}}><button onClick={removeBlog}>Remove</button></p>
+    <p style={{ display: canRemove ? '' : 'none'}}><button onClick={removeBlog}>Remove</button></p>
   </div>  )
 }
 

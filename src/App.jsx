@@ -130,7 +130,10 @@ const App = () => {
   }
 
   const checkBlogBelongs = (user,blog) => {
-    return user.blogs.some(e => e.id === blog.id)
+    console.log("blog user id", blog.user)
+    console.log("user id", user)
+
+    return blog.user === user.username
   }
 
   if (user === null) {
